@@ -1580,7 +1580,7 @@ x &lt;- rnorm(20, 0, 1)</code></pre>
 <p>Soit un facteur <code>cell_type &lt;- factor(c(&quot;C1&quot;,&quot;C2&quot;,&quot;C2&quot;,&quot;C2&quot;,&quot;C1&quot;,&quot;C2&quot;,&quot;C2&quot;,&quot;C1&quot;))</code>.</p>
 <ol style="list-style-type: decimal">
 <li><p>Afficher les “niveaux” de cell_types</p></li>
-<li><p>Calculer le nombre de “C1” et de “C2” dans fac en utilisant les fonctions <code>which</code>, <code>length</code> et des opérateurs binaires (==).</p></li>
+<li><p>Calculer le nombre de “C1” et de “C2” dans <code>cell_type</code> en utilisant les fonctions <code>which</code>, <code>length</code> et des opérateurs binaires (==).</p></li>
 <li><p>Que permet de faire la fonction <code>table</code> ? Appliquer la à <code>cell_type</code>.</p></li>
 </ol>
 </div>
@@ -1589,32 +1589,32 @@ x &lt;- rnorm(20, 0, 1)</code></pre>
 <p>La commande <code>paste</code> permet de concaténer du texte.</p>
 <ol style="list-style-type: decimal">
 <li><p>Essayer la commande <code>paste(&quot;chr&quot;, 1, sep=&quot;&quot;)</code>.</p></li>
-<li><p>Créer, en une seule ligne de commande, le vecteur <code>chrs</code> contenant les noms suivants : chr1, chr2, …, chr22, chrX, chrY. Indice : <code>paste</code></p></li>
-<li><p>Créer une chaîne unique <code>chrsj</code> contenant tous les champs de <code>chrs</code> séparés par un espace &quot; &quot;. Indice = <code>paste</code>.</p></li>
-<li><p>Recréer un vecteur <code>chrs2</code> à partir de la chaine <code>chrsj</code>. Indice : <code>split</code>. Vérifier s’il est identique à <code>chrs</code>.</p></li>
+<li><p>Créer, en une seule ligne de commande, le vecteur <code>chrs</code> contenant les noms suivants : chr1, chr2, …, chr22, chrX, chrY. Indice : <code>paste</code>.</p></li>
+<li><p>Créer une chaîne unique <code>chrsj</code> contenant tous les champs de <code>chrs</code> séparés par un espace &quot; &quot;. Indice : <code>paste</code>.</p></li>
+<li><p>Recréer un vecteur <code>chrs2</code> à partir de la chaine <code>chrsj</code>. Indice : <code>strsplit</code>. Vérifier s’il est identique à <code>chrs</code>.</p></li>
 </ol>
 </div>
 <div id="exercice-matrices" class="section level2">
 <h2><span class="header-section-number">3.6</span> Exercice: Matrices</h2>
 <ol style="list-style-type: decimal">
 <li><p>Exécuter la commande <code>s &lt;- rep(1:10, 10)</code></p></li>
-<li><p>Utiliser <code>s</code> pour construire une matrice <code>M</code> à 10 lignes et 10 colonnes. Indice : <code>matrix</code></p></li>
+<li><p>Utiliser <code>s</code> pour construire une matrice <code>M</code> à 10 lignes et 10 colonnes, comportant des <code>1</code> sur la première ligne, des <code>2</code> sur la seconde, etc… Indice : <code>matrix</code></p></li>
 <li><p>Afficher les dimensions de cette matrice. Indices : <code>dim</code>, <code>ncol</code>, <code>nrow</code></p></li>
-<li><p>Utiliser la fonction <code>t</code> sur cette matrice pour créer une matrice MT. Que s’est-il passé ?</p></li>
-<li><p>Effectuer le <strong>produit matriciel</strong> entre MT et M. Qu’obtient-on ?</p></li>
-<li><p>Les commandes <code>M[1:5, ]</code> et <code>MT[, 1:5]</code> permettent de récupérer respectivement les 5 premières lignes de M et les 5 premières colonnes de MT. Inspirez-vous de ces commandes pour récupérer dans M les lignes dont les valeurs sont comprises entre 1 et 2 et dans MT les colonnes dont les valeurs sont comprises entre 1 et 2.</p></li>
+<li><p>Utiliser la fonction <code>t</code> sur cette matrice pour créer une matrice <code>MT</code>. Que contient <code>MT</code>?</p></li>
+<li><p>Effectuer le <strong>produit matriciel</strong> entre <code>MT</code> et <code>M</code> (dans cet ordre). Qu’obtient-on ?</p></li>
+<li><p>Les commandes <code>M[1:5, ]</code> et <code>MT[, 1:5]</code> permettent de récupérer respectivement les 5 premières lignes de M et les 5 premières colonnes de MT. Inspirez-vous de ces commandes pour récupérer les lignes dont les valeurs sont comprises entre 1 et 2 de <code>M</code> et les colonnes dont les valeurs sont comprises entre 1 et 2 de <code>MT</code>.</p></li>
 </ol>
 </div>
 <div id="exercice-tableaux-de-données" class="section level2">
 <h2><span class="header-section-number">3.7</span> Exercice: Tableaux de données</h2>
-<p>Créer une liste x contenant :</p>
+<p>Créer une liste <code>x</code> contenant :</p>
 <ul>
 <li><p>une variable aléatoire gaussienne de taille 10 appelée <code>a</code></p></li>
 <li><p>un vecteur contenant uniquement des 1, de taille 10 également, appelé <code>b</code>.</p></li>
 </ul>
 <p>On peut accéder aux deux éléments de cette liste avec les commandes <code>x[[i]]</code> ou <code>x$nom_de_la_variable</code>. Indices : <code>list</code>, <code>rnorm</code>.</p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Créer un objet y qui est la transformation de cette liste en <em>data frame</em>. On peut maintenant parcourir les éléments de chaque objet comme pour une matrice avec la commande <code>y[i,j]</code>. indice = <code>as.data.frame</code>.</p></li>
+<li><p>Créer un objet <code>y</code> qui est la transformation de cette liste en <em>data frame</em>. On peut maintenant parcourir les éléments de chaque objet comme pour une matrice avec la commande <code>y[i,j]</code>. indice = <code>data.frame</code>.</p></li>
 <li><p>Créer deux objets <code>z1</code> et <code>z2</code> contenant respectivement les 3 premières et les 3 dernières lignes de <code>y</code>.</p></li>
 </ol>
 <p>Quelle est la classe de ces deux objets ?</p>
@@ -1647,11 +1647,11 @@ x &lt;- rnorm(20, 0, 1)</code></pre>
 <p><span class="math inline">\(M = \begin{bmatrix} 1 &amp; 2 &amp; 3 &amp; 4 \\ 5 &amp; 6 &amp; 7 &amp; 8 \\ 9 &amp; 10 &amp; 11 &amp; 12 \end{bmatrix}\)</span></p>
 <p>à l’aide des fonctions <code>seq</code> et <code>matrix</code></p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Ecrire la matrice M dans un fichier nommé <code>matrice.txt</code>. Que remarquez-vous?</p></li>
+<li><p>Ecrire la matrice <code>M</code> dans un fichier nommé <code>matrice.txt</code>. Que remarquez-vous?</p></li>
 <li><p>Ajouter des arguments à la commande précédente pour retirer des noms aux lignes et aux colonnes du fichier créé.</p></li>
-<li><p>Sauver la matrice A au format <strong>.Rdata</strong> dans le fichier <code>matriceA.Rdata</code> grâce à la fonction <code>save</code>.</p></li>
-<li><p>Que donne la commande <code>C = load(&quot;matriceA.Rdata&quot;)</code> ?</p></li>
-<li><p>Sauver toutes les variables dans un fichier nommé <code>données.Rdata</code></p></li>
+<li><p>Sauver la matrice <code>M</code> au format <strong>.RData</strong> dans le fichier <code>matriceM.RData</code> grâce à la fonction <code>save</code>.</p></li>
+<li><p>Que donne la commande <code>load(&quot;matriceM.RData&quot;)</code> ?</p></li>
+<li><p>Sauver la session complète dans un fichier nommé <code>session.RData</code></p></li>
 </ol>
 </div>
 </div>
@@ -1675,39 +1675,35 @@ x &lt;- rnorm(20, 0, 1)</code></pre>
 <div id="sélection-dun-sous-ensemble-de-données" class="section level2">
 <h2><span class="header-section-number">5.2</span> Sélection d’un sous ensemble de données</h2>
 <ol style="list-style-type: decimal">
-<li><p>Afficher la ligne 12. Afficher le nom du gènes de la ligne 12.</p></li>
+<li><p>Afficher la ligne 12. Afficher le nom du gène de la ligne 12.</p></li>
 <li><p>Afficher les lignes 100 à 105, incluant les positions chromosomique, strand et le type de <em>feature</em>.</p></li>
-<li><p>Afficher les types de <em>features</em> existantes dans les donnés.</p></li>
+<li><p>Afficher les types de <em>features</em> existantes.</p></li>
 </ol>
 </div>
 <div id="sélection-dun-sous-ensemble-de-données-basé-sur-les-valeurs-du-tableau" class="section level2">
 <h2><span class="header-section-number">5.3</span> Sélection d’un sous ensemble de données basé sur les valeurs du tableau</h2>
 <ol style="list-style-type: decimal">
-<li><p>Sélectionner les lignes correspondantes aux gènes et comptez les. (fonction <code>subset</code>).</p></li>
-<li><p>Afficher le nombre d’entrées pour chaque feature avec <code>table</code>.</p></li>
+<li><p>Sélectionner les lignes correspondantes aux gènes et comptez les (fonction <code>subset</code>).</p></li>
+<li><p>Afficher le nombre d’entrées pour chaque <em>feature</em> avec <code>table</code>.</p></li>
 <li><p>Afficher le nombre d’entrées pour chaque chromosome.</p></li>
 <li><p>Faire une table de contingence en affichant le nombre de chaque feature pour chaque chromosome (Utiliser la fonction <code>table</code>)</p></li>
 </ol>
 </div>
 <div id="manipulation-dun-tableau" class="section level2">
 <h2><span class="header-section-number">5.4</span> Manipulation d’un tableau</h2>
-<ol style="list-style-type: decimal">
-<li><p>Ajouter une colonne <code>length</code> au tableau définie comme état la différence entre les colonnes <code>start</code>et <code>end</code>.</p></li>
-<li><p>Ajouter une colonne <code>gene_name</code> avec le nom du gène correspondant. Il faut l’extraire de la colonne 9 (fonction <code>apply</code>)</p></li>
-</ol>
+<p>Ajouter une colonne <code>length</code> au tableau <code>human.gene.annot</code>, définie comme étant la différence entre les colonnes <code>start</code>et <code>end</code>.</p>
 </div>
 <div id="plot-de-données" class="section level2">
 <h2><span class="header-section-number">5.5</span> Plot de données</h2>
 <ol style="list-style-type: decimal">
-<li><p>Faire un histogramme représentant la distribution des valeurs des gènes (fonction <code>hist</code>).</p></li>
-<li><p>Faire un boxplot représentant la distribution des valeurs des gènes par chromosome (fonction <code>boxplot</code>).</p></li>
+<li><p>Faire un histogramme représentant la distribution des longueurs des gènes (fonction <code>hist</code>).</p></li>
+<li><p>Faire un plot représentant le nombre de gènes par chromosome (fonction <code>barplot</code>).</p></li>
 </ol>
 </div>
 <div id="paramètres-descriptifs" class="section level2">
 <h2><span class="header-section-number">5.6</span> Paramètres descriptifs</h2>
 <ol style="list-style-type: decimal">
-<li><p>Extraire la moyenne et écart type des longueurs de gènes pour le génome total (<em>feature</em> = <em>gene</em>)</p></li>
-<li><p>Extraire la moyenne et écart type des longueurs de gènes pour chaque chromosome (<em>feature</em> = <em>gene</em>)</p></li>
+<li>Extraire la moyenne, écart type, valeurs min et max des longueurs de gènes pour le génome total (<code>feature == &quot;gene&quot;</code>)</li>
 </ol>
 <p><br> <br> <br> <br></p>
 <div style="text-align: center">
