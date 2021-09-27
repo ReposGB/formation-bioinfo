@@ -3226,7 +3226,7 @@ background-size: 60px 60px;
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>TD: Analyse différentielle et enrichisement fonctionnel sous Bioconductor</h2></hgroup><article  class="smaller " id="td-analyse-différentielle-et-enrichisement-fonctionnel-sous-bioconductor">
+<slide class=""><hgroup><h2>TD: Analyse différentielle et enrichisement fonctionnel sous Bioconductor</h2></hgroup><article  id="td-analyse-différentielle-et-enrichisement-fonctionnel-sous-bioconductor" class="smaller ">
 
 <p>Dans ce TD, nous allons faire une analyse différentielle basée sur les données par Yusenko <em>et al</em>. &ldquo;Monensin, a novel potent MYB inhibitor, suppresses proliferation of acute myeloid leukemia and adenoid cystic carcinoma cells&rdquo;. <em>Cancer Lett</em> 2020 Jun 1;479:61-70. PMID: 32014461</p>
 
@@ -3234,26 +3234,24 @@ background-size: 60px 60px;
 
 <p>Il est possible de retrouver les données relatives à cet expérimentation sur le site de <strong>GEO</strong> sous le numéro d’accession <strong>GSE130657</strong>: <a href='https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE130657' title=''>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE130657</a></p>
 
-</article></slide><slide class=""><hgroup><h2>Récupération des données de comptage:</h2></hgroup><article  class="smaller " id="récupération-des-données-de-comptage">
+</article></slide><slide class=""><hgroup><h2>Récupération des données de comptage:</h2></hgroup><article  id="récupération-des-données-de-comptage" class="smaller ">
 
 <p>Pour cela, nous allons exploiter le fichier de comptage <code>counts_GSE130657.txt</code> généré lors du TD d’analyse RNA-Seq précédent. Nous allons aussi récupérer le fichier <code>targets_GSE130657.txt</code>.</p>
 
 <p>Ils sont disponibles sur <a href='https://mycore.core-cloud.net/index.php/s/MGxZHH97rEPTQJF?path=%2Fdata_rna_seq_GSE130657%2Fdiff_expression_analysis' title=''>https://mycore.core-cloud.net/index.php/s/MGxZHH97rEPTQJF?path=%2Fdata_rna_seq_GSE130657%2Fdiff_expression_analysis</a></p>
 
-</article></slide><slide class=""><hgroup><h2>Chargement des données dans R</h2></hgroup><article  class="smaller " id="chargement-des-données-dans-r">
+</article></slide><slide class=""><hgroup><h2>Chargement des données dans R</h2></hgroup><article  id="chargement-des-données-dans-r" class="smaller ">
 
-<pre class = 'prettyprint lang-r'>library(readr)
+<p>On remplace les en-têtes de colonnes de <code>expression_raw_counts</code> par le nom de l’échantillon pour correspondre aux lignes du tableau <code>targets</code>.</p>
 
-expression_raw_counts &lt;- read.table(&quot;counts_GSE130657.txt&quot;, sep=&#39;\t&#39;, header = T, )
-targets &lt;- read.table(&quot;targets_GSE130657.txt&quot;, sep=&#39;\t&#39;, header = T)
-
-# Replace header
+<pre class = 'prettyprint lang-r'>expression_raw_counts &lt;- read.table(&quot;counts_GSE130657.txt&quot;, sep=&#39;\t&#39;, header = TRUE, )
+targets &lt;- read.table(&quot;targets_GSE130657.txt&quot;, sep=&#39;\t&#39;, header = TRUE)
 
 cnames_1 &lt;- gsub(&quot;staraligned.&quot;, &quot;&quot;, colnames(expression_raw_counts))
 cnames_2 &lt;- gsub(&quot;.trim_Aligned.sortedByCoord.out.bam&quot;, &quot;&quot;, cnames_1)
 colnames(expression_raw_counts) &lt;- cnames_2</pre>
 
-</article></slide><slide class=""><hgroup><h2>Fichier <em>Targets</em></h2></hgroup><article  class="smaller " id="fichier-targets">
+</article></slide><slide class=""><hgroup><h2>Fichier <em>Targets</em></h2></hgroup><article  id="fichier-targets" class="smaller ">
 
 <pre class = 'prettyprint lang-r'>targets</pre>
 
@@ -3267,7 +3265,7 @@ colnames(expression_raw_counts) &lt;- cnames_2</pre>
 
 <p>Cellules THP1 non traitées (THP0) et traités avec Monensim (M).</p>
 
-</article></slide><slide class=""><hgroup><h2>ID Conversion with BiomaRt</h2></hgroup><article  class="smaller " id="id-conversion-with-biomart">
+</article></slide><slide class=""><hgroup><h2>ID Conversion with BiomaRt</h2></hgroup><article  id="id-conversion-with-biomart" class="smaller ">
 
 <p>Nous disposons d’identifiants de gènes <em>Ensembl</em>. Nous souhaitons les adosser à d’autres types d’identifiants:</p>
 
@@ -3288,17 +3286,19 @@ colnames(expression_raw_counts) &lt;- cnames_2</pre>
 
 <p><a href='https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html' title=''>https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html</a></p>
 
-</article></slide><slide class=""><hgroup><h2>Conversion de données avec BioMart</h2></hgroup><article  class="smaller " id="conversion-de-données-avec-biomart">
+</article></slide><slide class=""><hgroup><h2>Conversion de données avec BioMart</h2></hgroup><article  id="conversion-de-données-avec-biomart" class="smaller ">
 
 <pre class = 'prettyprint lang-r'>ensembl &lt;- useEnsembl(biomart = &quot;genes&quot;)
 
-searchDatasets(mart = ensembl, pattern = &quot;hsapiens&quot;)
+# Liste des jeux de données disponibles
+# searchDatasets(mart = ensembl, pattern = &quot;hsapiens&quot;)
 
 ensembl &lt;- useDataset(&quot;hsapiens_gene_ensembl&quot;, useMart(&quot;ensembl&quot;))
 
 ensembl.GID &lt;- expression_raw_counts$Geneid
 
-attributes &lt;- listAttributes(ensembl)
+# Liste des attributs
+# attributes &lt;- listAttributes(ensembl)
 
 ensembl.GID.biomart.annot &lt;- getBM(filters= &quot;ensembl_gene_id_version&quot;,
                         attributes= c(&quot;ensembl_gene_id_version&quot;,
@@ -3310,27 +3310,7 @@ annotated_expression_counts &lt;- merge(ensembl.GID.biomart.annot,
                                by.x=&quot;ensembl_gene_id_version&quot;,
                                by.y=&quot;Geneid&quot;)</pre>
 
-<pre class = 'prettyprint lang-r'>#ensembl &lt;- useEnsembl(biomart = &quot;genes&quot;)
-#save(ensembl, file = &quot;ensembl&quot;)
-#searchDatasets(mart = ensembl, pattern = &quot;hsapiens&quot;)
-
-#ensembl &lt;- useDataset(&quot;hsapiens_gene_ensembl&quot;, useMart(&quot;ensembl&quot;))
-#save(ensembl)
-load(file=&quot;ensembl&quot;)
-
-ensembl.GID &lt;- expression_raw_counts$Geneid
-
-attributes &lt;- listAttributes(ensembl)
-
-#ensembl.GID.biomart.annot &lt;- getBM(filters= &quot;ensembl_gene_id_version&quot;, attributes= c(&quot;ensembl_gene_id_version&quot;, &quot;entrezgene_id&quot;, &quot;hgnc_symbol&quot; ), values=ensembl.GID, mart=ensembl)
-
-#save(ensembl.GID.biomart.annot, file = &quot;ensembl.GID.biomart.annot&quot;)
-
-load(file=&quot;ensembl.GID.biomart.annot&quot;)
-
-annotated_expression_counts &lt;- merge(ensembl.GID.biomart.annot, expression_raw_counts, by.x=&quot;ensembl_gene_id_version&quot;, by.y=&quot;Geneid&quot;)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Analyse de gènes différentiellement exprimés par <strong>edgeR</strong></h2></hgroup><article  class="smaller " id="analyse-de-gènes-différentiellement-exprimés-par-edger">
+</article></slide><slide class=""><hgroup><h2>Analyse de gènes différentiellement exprimés par <strong>edgeR</strong></h2></hgroup><article  id="analyse-de-gènes-différentiellement-exprimés-par-edger" class="smaller ">
 
 <p><strong>edgeR</strong> (Robinson <em>et al</em> 2010) a été initialement développé pour l’analyse de données <strong>SAGE</strong>, technologie pour laquelle l’expression d’un gène est exprimé de manière <em>discrète</em>, par opposition aux microarrays, où les gènes sont exprimés de manière <em>continue</em>.</p>
 
@@ -3344,7 +3324,7 @@ annotated_expression_counts &lt;- merge(ensembl.GID.biomart.annot, expression_ra
 
 <p>Ce modèle permet de séparer les variations entre les échantillons (\(\phi_g\)) des variations entre conditions expérimentales \(p_{gj}\).</p>
 
-</article></slide><slide class=""><hgroup><h2>Analyse des gènes différentiellement exprimés par <strong>edgeR</strong></h2></hgroup><article  class="smaller " id="analyse-des-gènes-différentiellement-exprimés-par-edger">
+</article></slide><slide class=""><hgroup><h2>Analyse des gènes différentiellement exprimés par <strong>edgeR</strong></h2></hgroup><article  id="analyse-des-gènes-différentiellement-exprimés-par-edger" class="smaller ">
 
 <p>Fonctionnement de <strong>edgeR</strong>:</p>
 
@@ -3354,46 +3334,61 @@ annotated_expression_counts &lt;- merge(ensembl.GID.biomart.annot, expression_ra
 <li><p>Un test similaire à un test exact de <strong>Fisher</strong> est appliqué sur les données modélisées pour déterminer la significativité de l’expression différentielle des gènes.</p></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Formatage des données pour créer un objet pour traitement par edgeR</h2></hgroup><article  class="smaller " id="formatage-des-données-pour-créer-un-objet-pour-traitement-par-edger">
+</article></slide><slide class=""><hgroup><h2>Formatage des données pour créer un objet pour traitement par edgeR</h2></hgroup><article  id="formatage-des-données-pour-créer-un-objet-pour-traitement-par-edger" class="smaller ">
 
 <pre class = 'prettyprint lang-r'>library(edgeR)
 
 expression_counts &lt;- annotated_expression_counts[,9:ncol(annotated_expression_counts)]
 
-expression_counts &lt;- expression_counts[,
-                      match(targets$SRA_ID, colnames(expression_counts))]
+identical(targets$SRA_ID, colnames(expression_counts))</pre>
 
-expression_annotation &lt;- annotated_expression_counts[,1:7]
+<pre >## [1] TRUE</pre>
 
+<pre class = 'prettyprint lang-r'>expression_annotation &lt;- annotated_expression_counts[,1:8]
+
+ 
 y &lt;- DGEList(counts=expression_counts, 
              genes=expression_annotation, group = factor(targets$Treatment))</pre>
 
 <pre class = 'prettyprint lang-r'>head(expression_counts)
 head(expression_annotation)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Filtrage des comptages</h2></hgroup><article  class="smaller " id="filtrage-des-comptages">
+</article></slide><slide class=""><hgroup><h2>Filtrage des comptages</h2></hgroup><article  id="filtrage-des-comptages" class="smaller ">
 
 <p>Il est important de filtrer les gènes trop peu exprimés dans les différents échantillons, car ils peuvent interférer avec les modèles statistiques sous-jacents.</p>
 
-<pre class = 'prettyprint lang-r'>keep &lt;- filterByExpr(y)
+<p>Je demande de garder les gènes:</p>
+
+<ul>
+<li>Exprimés dans au moins <strong>2</strong> échantillons dans un groupe</li>
+<li>Ayant au moins un compte brut de <strong>15</strong> dans au moins <strong>1</strong> échantillons</li>
+<li>Ayant au moins un compte brut total de <strong>100</strong></li>
+<li>Ayant un identifiant <code>entrezgene</code> et <code>hgnc_symbol</code> Le <code>keep.lib.sizes=FALSE</code> force le re-calcul des tailles de librairies.</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>keep &lt;- filterByExpr(y, min.total.count=100, min.prop =2, min.count=15) &amp;
+        !is.na(y$genes$entrezgene_id) &amp;
+        !is.na(y$genes$hgnc_symbol)
+
 y &lt;- y[keep, , keep.lib.sizes=FALSE]</pre>
 
-</article></slide><slide class=""><hgroup><h2>Plots QC: tailles de librairies</h2></hgroup><article  class="smaller " id="plots-qc-tailles-de-librairies">
+</article></slide><slide class=""><hgroup><h2>Plots QC: tailles de librairies</h2></hgroup><article  id="plots-qc-tailles-de-librairies" class="smaller ">
 
 <pre class = 'prettyprint lang-r'>barplot(y$samples$lib.size,names=colnames(y),las=2)
 title(&quot;Library sizes&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Plots QC: Plots des comptages</h2></hgroup><article  class="smaller " id="plots-qc-plots-des-comptages">
+</article></slide><slide class=""><hgroup><h2>Plots QC: Plots des comptages</h2></hgroup><article  id="plots-qc-plots-des-comptages" class="smaller ">
 
-<pre class = 'prettyprint lang-r'># Get log2 counts per million
-logcounts &lt;- cpm(y,log=TRUE)
-# Check distributions of samples using boxplots
+<p><code>cpm</code> permets de récupérér les comptages.</p>
+
+<p>Ligne bleue = médiane des comptages.</p>
+
+<pre class = 'prettyprint lang-r'>logcounts &lt;- cpm(y,log=TRUE)
 boxplot(logcounts, xlab=&quot;&quot;, ylab=&quot;Log2 counts per million&quot;,las=2)
-# Let&#39;s add a blue horizontal line that corresponds to the median logCPM
 abline(h=median(logcounts),col=&quot;blue&quot;)
 title(&quot;Boxplots of logCPMs (unnormalised)&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Plots QC: Distribution des comptages</h2></hgroup><article  class="smaller " id="plots-qc-distribution-des-comptages">
+</article></slide><slide class=""><hgroup><h2>Plots QC: Distribution des comptages</h2></hgroup><article  id="plots-qc-distribution-des-comptages" class="smaller ">
 
 <pre class = 'prettyprint lang-r'>library(affy)
 
@@ -3413,7 +3408,7 @@ legend(&quot;topright&quot;, legend=unique(targets$Sample),
        col=unique(palette()[
          as.factor(targets$Sample)]), lwd=2, cex = 0.7)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Normalisation</h2></hgroup><article  class="smaller " id="normalisation">
+</article></slide><slide class=""><hgroup><h2>Normalisation</h2></hgroup><article  id="normalisation" class="smaller ">
 
 <p>edgeR est conçu principalement pour la détection de gènes différentiellement exprimés, mais pas pour estimer les niveaux d’expression absolus.</p>
 
@@ -3423,28 +3418,28 @@ legend(&quot;topright&quot;, legend=unique(targets$Sample),
 
 <p>Il est par contre nécessaire d’ajuster d’un biais technique important, comme les <strong>effets de lots</strong> en amont de l’analyse.</p>
 
-</article></slide><slide class=""><hgroup><h2>Normalisation (suite)</h2></hgroup><article  class="smaller " id="normalisation-suite">
+</article></slide><slide class=""><hgroup><h2>Normalisation (suite)</h2></hgroup><article  id="normalisation-suite" class="smaller ">
 
-<p>Il existe une autre source technique qui peut influencer l’expression et le détection des gènes différentiellement exprimés. Il faut se rappeler que le RNA-seq ne donne pas l’expression absolue de chaque ARNm dans la cellule mais plutôt l’<strong>abondance relative</strong> de ces ARNm.</p>
+<p>Il existe une autre source technique qui peut influencer l’expression et la détection des gènes différentiellement exprimés. Il faut se rappeler que le RNA-seq ne donne pas l’expression absolue de chaque ARNm dans la cellule mais plutôt l’<strong>abondance relative</strong> de ces ARNm.</p>
 
 <p>Cela peut poser problème si un petit nombre de gènes ont une expression très élevée dans certains échantillons et pas dans d’autres. Cela signifie que les gènes vont <strong>&ldquo;consommer&rdquo;</strong> des <em>reads</em> et faire baisser proportionnellement le nombre de <em>reads</em> alloués aux autres gènes. Ce sous-échantilonnage des autres gènes pourrait être interprété comme une fausse expression différentielle.</p>
 
 <p>La méthode <strong>calcNormFactor</strong> du package <strong>edgeR</strong> calcule des valeurs d’expression normalisés en utilisant les TMM (<em>Trimmed Mean of M-Values</em>) qui tiennent compte de ces biais.</p>
 
-</article></slide><slide class=""><hgroup><h2>TMM Normalisation</h2></hgroup><article  class="smaller " id="tmm-normalisation">
+</article></slide><slide class=""><hgroup><h2>TMM Normalisation</h2></hgroup><article  id="tmm-normalisation" class="smaller ">
 
 <pre class = 'prettyprint lang-r'>y &lt;- calcNormFactors(y, method = &quot;TMM&quot;)
 y$samples</pre>
 
 <pre >##            group lib.size norm.factors
-## SRR9005674  THP0 24144082    0.9665688
-## SRR9005675  THP0 22880870    0.9544902
-## SRR9005676  THP0 23902614    0.9746921
-## SRR9005677     M 23257559    1.0420140
-## SRR9005678     M 22694064    1.0377674
-## SRR9005679     M 21286506    1.0283826</pre>
+## SRR9005674  THP0 23705619    0.9780126
+## SRR9005675  THP0 22479913    0.9708411
+## SRR9005676  THP0 23475241    0.9856558
+## SRR9005677     M 22782093    1.0282744
+## SRR9005678     M 22222318    1.0257079
+## SRR9005679     M 20846555    1.0130931</pre>
 
-</article></slide><slide class=""><hgroup><h2>Contrôle qualité des données</h2></hgroup><article  class="smaller " id="contrôle-qualité-des-données">
+</article></slide><slide class=""><hgroup><h2>Contrôle qualité des données</h2></hgroup><article  id="contrôle-qualité-des-données" class="smaller ">
 
 <p>Plot MDS (Multidimensional Scaling)</p>
 
@@ -3454,32 +3449,7 @@ y$samples</pre>
 
 <pre class = 'prettyprint lang-r'>plotMDS(y, labels = targets$Treatment)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Matrice de design</h2></hgroup><article  class="smaller " id="matrice-de-design">
-
-<p>Pour comparer les échantillons entre eux en fonction des variables expérimentales étudiées, il faut créer une matrice de <em>design</em>, qui permet de formaliser l’information liée à chaque échantillon de manière <strong>binaire</strong>.</p>
-
-<pre class = 'prettyprint lang-r'>Treatment &lt;- factor(targets$Treatment)
-design &lt;- model.matrix(~Treatment)
-colnames(design) &lt;- c(&quot;THP0&quot;, &quot;THP0.vs.M&quot;)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Matrice de design</h2></hgroup><article  class="smaller " id="matrice-de-design-1">
-
-<pre class = 'prettyprint lang-r'>design</pre>
-
-<pre >##   THP0 THP0.vs.M
-## 1    1         1
-## 2    1         1
-## 3    1         1
-## 4    1         0
-## 5    1         0
-## 6    1         0
-## attr(,&quot;assign&quot;)
-## [1] 0 1
-## attr(,&quot;contrasts&quot;)
-## attr(,&quot;contrasts&quot;)$Treatment
-## [1] &quot;contr.treatment&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Estimation de la dispersion</h2></hgroup><article  class="smaller " id="estimation-de-la-dispersion">
+</article></slide><slide class=""><hgroup><h2>Estimation de la dispersion</h2></hgroup><article  id="estimation-de-la-dispersion" class="smaller ">
 
 <p>edgeR utilise un estimateur de dispersion appelé <em>quantile-adjusted conditional maximum likelihood</em> (<strong>qCML</strong>) pour les expérimentations avec un facteur unique.</p>
 
@@ -3487,21 +3457,21 @@ colnames(design) &lt;- c(&quot;THP0&quot;, &quot;THP0.vs.M&quot;)</pre>
 
 <p>Je propose de travailler d’abord avec <strong>qCML</strong> puis de refaire une analyse avec <strong>CR</strong> et de faire une comparaison du résultat.</p>
 
-<pre class = 'prettyprint lang-r'>y &lt;- estimateDisp(y, design = design)</pre>
+<pre class = 'prettyprint lang-r'>y &lt;- estimateDisp(y)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Visualisation de la dispersion par PlotBCV</h2></hgroup><article  class="smaller " id="visualisation-de-la-dispersion-par-plotbcv">
+</article></slide><slide class=""><hgroup><h2>Visualisation de la dispersion par PlotBCV</h2></hgroup><article  id="visualisation-de-la-dispersion-par-plotbcv" class="smaller ">
 
 <p>PlotBCV = Plot Biological Coefficient of Variation</p>
 
 <pre class = 'prettyprint lang-r'>plotBCV(y)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Test pour les gènes différentiellement exprimés</h2></hgroup><article  class="smaller " id="test-pour-les-gènes-différentiellement-exprimés">
+</article></slide><slide class=""><hgroup><h2>Test pour les gènes différentiellement exprimés</h2></hgroup><article  id="test-pour-les-gènes-différentiellement-exprimés" class="smaller ">
 
 <p>Une fois la dispersion calculée, on peut ensuite appliquer le test exact par la fonction <code>exactTest</code>. Ce test vérifie l’hypothèse nulle sur l’expression différentielle des gènes sur les deux conditions comparées en utilisant une distribution binomiale négative.</p>
 
 <pre class = 'prettyprint lang-r'>et &lt;- exactTest(y)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Extraction des gènes par topTags</h2></hgroup><article  class="smaller " id="extraction-des-gènes-par-toptags">
+</article></slide><slide class=""><hgroup><h2>Extraction des gènes par topTags</h2></hgroup><article  id="extraction-des-gènes-par-toptags" class="smaller ">
 
 <p>La fonction <code>topTags</code> permet d’extraire le résultat du test pour chaque gène, en y appliquant des filtres (test multiples, tri, n).</p>
 
@@ -3513,14 +3483,14 @@ colnames(tt)</pre>
 <pre >##  [1] &quot;ensembl_gene_id_version&quot; &quot;entrezgene_id&quot;          
 ##  [3] &quot;hgnc_symbol&quot;             &quot;Chr&quot;                    
 ##  [5] &quot;Start&quot;                   &quot;End&quot;                    
-##  [7] &quot;Strand&quot;                  &quot;logFC&quot;                  
-##  [9] &quot;logCPM&quot;                  &quot;PValue&quot;                 
-## [11] &quot;FDR&quot;</pre>
+##  [7] &quot;Strand&quot;                  &quot;Length&quot;                 
+##  [9] &quot;logFC&quot;                   &quot;logCPM&quot;                 
+## [11] &quot;PValue&quot;                  &quot;FDR&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>write.table(tt, file = &quot;top.diff.simple.test.txt&quot;, sep = &quot;\t&quot;, 
             row.names = F, quote = FALSE)</pre>
 
-</article></slide><slide class=""><hgroup><h2>TP: Analyse avec le modèle <em>Cox-Reid</em> d’estimation de la vraisemblance.</h2></hgroup><article  class="smaller " id="tp-analyse-avec-le-modèle-cox-reid-destimation-de-la-vraisemblance.">
+</article></slide><slide class=""><hgroup><h2>TP: Analyse avec le modèle <em>Cox-Reid</em> d’estimation de la vraisemblance.</h2></hgroup><article  id="tp-analyse-avec-le-modèle-cox-reid-destimation-de-la-vraisemblance." class="smaller ">
 
 <p>Dans cette analyse, nous allons utiliser l’estimateur <em>Cox-Reid profile-adjusted likelihood (CR)</em> associé à un modèle linéaire généralisé.</p>
 
@@ -3532,9 +3502,38 @@ colnames(tt)</pre>
 <li><p>Comparer les gènes différentiellement exprimés vérifiant un seuil statistique en utilisant un diagramme de Venn (astuce: utiliser le package <strong>VennDiagram</strong>)</p></li>
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>Solution</h2></hgroup><article  class="smaller " id="solution">
+</article></slide><slide class=""><hgroup><h2>Matrice de design</h2></hgroup><article  id="matrice-de-design" class="smaller ">
 
-<p>Créer une matrice de design tenant compte des échantillons.</p>
+<p>Pour comparer les échantillons entre eux en fonction des variables expérimentales étudiées, il faut créer une matrice de <em>design</em>, qui permet de formaliser l’information liée à chaque échantillon de manière <strong>binaire</strong>.</p>
+
+<p>Par exemple, voici une matrice de design simple pour faire une comparaison entre groupes (<code>Treatment</code>).</p>
+
+<p>Le terme <code>~0</code> représente l’intersection (<em>intercept</em>).</p>
+
+<pre class = 'prettyprint lang-r'>Treatment &lt;- factor(targets$Treatment)
+design &lt;- model.matrix(~0+Treatment)
+colnames(design) &lt;- c(&quot;THP0&quot;, &quot;THP0.vs.M&quot;)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Matrice de design</h2></hgroup><article  id="matrice-de-design-1" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>design</pre>
+
+<pre >##   THP0 THP0.vs.M
+## 1    0         1
+## 2    0         1
+## 3    0         1
+## 4    1         0
+## 5    1         0
+## 6    1         0
+## attr(,&quot;assign&quot;)
+## [1] 1 1
+## attr(,&quot;contrasts&quot;)
+## attr(,&quot;contrasts&quot;)$Treatment
+## [1] &quot;contr.treatment&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Solution</h2></hgroup><article  id="solution" class="smaller ">
+
+<p>Créer une matrice de design en <strong>spécifiant les échantillons dans l’intersection</strong> (terme <code>~Sample</code> dans l’appel à <code>model.matrix</code>).</p>
 
 <pre class = 'prettyprint lang-r'>Sample &lt;- factor(targets$Sample)
 Treatment &lt;- factor(targets$Treatment)
@@ -3544,31 +3543,33 @@ colnames(design) &lt;- gsub(&quot;group&quot;, &quot;&quot;, colnames(design))
 
 rownames(design) &lt;- colnames(y)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Solution (suite)</h2></hgroup><article  class="smaller " id="solution-suite">
+</article></slide><slide class=""><hgroup><h2>Solution (suite)</h2></hgroup><article  id="solution-suite" class="smaller ">
 
 <p>Nous utilisons un modèle basé sur la quasi-likelihood (QL), plus robuste en cas de design multi-factoriel (Fonction <code>glmQLFit</code>).</p>
 
-<pre class = 'prettyprint lang-r'>y &lt;- estimateDisp(y, design = design) # attention, on ajoute l&#39;argument design
+<p><strong>On ajoute l’argument design dans le calcul de dispersion</strong>.</p>
+
+<pre class = 'prettyprint lang-r'>y &lt;- estimateDisp(y, design = design)
 fit &lt;- glmQLFit(y, design)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Solution (suite)</h2></hgroup><article  class="smaller " id="solution-suite-1">
+</article></slide><slide class=""><hgroup><h2>Solution (suite)</h2></hgroup><article  id="solution-suite-1" class="smaller ">
 
 <p>On peut donc ensuite appliquer le test de détection des gènes différentiellement exprimés.</p>
 
 <pre class = 'prettyprint lang-r'>qlf &lt;- glmQLFTest(fit)</pre>
 
-</article></slide><slide class=""><hgroup><h2>On extrait les gènes différentiellement exprimés avec topTags</h2></hgroup><article  class="smaller " id="on-extrait-les-gènes-différentiellement-exprimés-avec-toptags">
+</article></slide><slide class=""><hgroup><h2>On extrait les gènes différentiellement exprimés avec topTags</h2></hgroup><article  id="on-extrait-les-gènes-différentiellement-exprimés-avec-toptags" class="smaller ">
 
 <pre class = 'prettyprint lang-r'>tt &lt;- topTags(qlf, adjust.method = &quot;BH&quot;, sort.by = c(&quot;PValue&quot;), n=1000)
 colnames(tt)
 write.table(tt, file = &quot;top.diff.qlf.txt&quot;, sep = &quot;\t&quot;, 
             row.names = F, quote = FALSE)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Je sauve les objets dans un fichier pour le TP suivant</h2></hgroup><article  class="smaller " id="je-sauve-les-objets-dans-un-fichier-pour-le-tp-suivant">
+</article></slide><slide class=""><hgroup><h2>Je sauve les objets dans un fichier pour le TP suivant</h2></hgroup><article  id="je-sauve-les-objets-dans-un-fichier-pour-le-tp-suivant" class="smaller ">
 
 <pre class = 'prettyprint lang-r'>save(y, et, targets, annotated_expression_counts, file=&quot;diffAnalysis.RData&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Licence</h2></hgroup><article  class="smaller " id="licence">
+</article></slide><slide class=""><hgroup><h2>Licence</h2></hgroup><article  id="licence" class="smaller ">
 
 <div style="text-align: center">
 <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png"></a><br></p>
