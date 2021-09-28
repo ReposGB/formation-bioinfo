@@ -252,14 +252,13 @@ div.tocify {
 <p>Ce TD est librement inspiré du cours de programmation Python proposé par Emmanuel Fleury (<a href="https://www.labri.fr/perso/fleury/pages/initiation-a-python-3.html" class="uri">https://www.labri.fr/perso/fleury/pages/initiation-a-python-3.html</a>)</p>
 <div id="organisation" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> Organisation</h1>
-<p>Il est souhaitable de réaliser ce TD dans un fichier .py en l’éditant avec <strong>gedit</strong>. Vous pouvez stocker le code dans <code>~/TP_python/TP_Intro_Python.py</code>. Ensuite, nous l’exécuterons dans un <strong>terminal</strong>.</p>
-<p>Pour les exercices demandant l’écriture d’un programme indépendant, il faut stocker le code dans un fichier <code>.py</code> à part si possible sous un nom bien choisi.</p>
 <p>Vérifier votre version de python et soyez sûr que vous faites bien tourner python <strong>version 3</strong>.</p>
+<p>Pour les exercices demandant l’écriture d’un programme indépendant, il faut enregistrer le code dans un fichier <code>.py</code> sous un nom bien choisi.</p>
 <p>N’oubliez pas d’organiser votre code en sections avec des commentaires, comme, par exemple, ceci:</p>
-<pre class="python"><code># Exercice 1
+<pre class="python"><code># Commentaire
 instructions
 
-# Exercice 2
+# Commentaire
 instructions</code></pre>
 <p>… et de commenter votre code</p>
 <pre class="python"><code># Je génère une suite de nombre entre 1 et 100
@@ -325,8 +324,8 @@ float(&quot;10.5&quot;)</code></pre>
 <h1 number="3"><span class="header-section-number">3</span> Ecriture de programmes simples</h1>
 <div id="exercice-1-hello-world" class="section level2" number="3.1">
 <h2 number="3.1"><span class="header-section-number">3.1</span> Exercice 1: <em>Hello World</em></h2>
-<p>Créer un programme qui affihe “Hello World” stocké dan le fichier <code>HelloWorld.py</code> et que l’on invoquera par</p>
-<pre class="bash"><code>./HelloWorld.py</code></pre>
+<p>Créer un programme qui affiche “Hello World” dans le fichier <code>helloworld.py</code> et que l’on invoquera par</p>
+<pre class="bash"><code>./helloworld.py</code></pre>
 </div>
 <div id="exercice-2-invite-de-commande-et-longueurs-de-chaînes-de-caractères" class="section level2" number="3.2">
 <h2 number="3.2"><span class="header-section-number">3.2</span> Exercice 2: Invite de commande et longueurs de chaînes de caractères</h2>
@@ -410,8 +409,9 @@ s1.isdisjoint(s2)
 s1.issubset(s2)
 s1.issuperset(s2)</code></pre>
 </div>
-<div id="exercice-sur-les-dictionnaires-exécuter-les-exemples-suivants-dans-linvite-de-commande" class="section level2" number="4.3">
-<h2 number="4.3"><span class="header-section-number">4.3</span> Exercice sur les dictionnaires: Exécuter les exemples suivants dans l’invite de commande:</h2>
+<div id="exercice-sur-les-dictionnaires" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> Exercice sur les dictionnaires</h2>
+<p>Exécuter les exemples suivants dans l’invite de commande:</p>
 <pre class="python"><code>d = {&#39;nom&#39;:&#39;MonNom&#39;,&#39;prenom&#39;:&#39;MonPrenom&#39;,&#39;a&#39;:&#39;b&#39;}
 type(d)
 del(d[&#39;a&#39;])
@@ -428,9 +428,9 @@ print(d, e)
 d[&#39;a&#39;] = &#39;b&#39;
 print(d, e)
 
-&#39;prenom &#39; in d
-&#39;truc &#39; in d
-&#39;MonNom &#39; in d</code></pre>
+&#39;prenom&#39; in d
+&#39;truc&#39; in d
+&#39;MonNom&#39; in d</code></pre>
 </div>
 <div id="exercice-liste-ordonnée" class="section level2" number="4.4">
 <h2 number="4.4"><span class="header-section-number">4.4</span> Exercice: Liste ordonnée</h2>
