@@ -355,7 +355,7 @@ watch squeue -u &lt;username&gt;</code></pre>
 <p>En local:</p>
 <pre class="bash"><code>mkdir TD_DNA-seq
 cd TD_DNA-seq
-scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/gbidaut/formation_cnrs/DNA-seq_PRJNA588789/multiqc_* .</code></pre>
+scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/&lt;username&gt;/formation_cnrs/DNA-seq_PRJNA588789/multiqc_* .</code></pre>
 <p>Puis ouvrir le fichier <code>multiqc.html</code>avec Firefox.</p>
 <p>Faire un bilan de la qualité des données.</p>
 </div>
@@ -419,13 +419,13 @@ watch squeue -u &lt;username&gt;
 multiqc .</code></pre>
 <p>Il existe déja un rapport multiqc dans le répertoire courant. Celui-ci n’est pas écrasé par le nouvel appel à multiqc: le rapport nouvellement généré porte l’extension <code>_1</code>.</p>
 <p>On peut ensuite le rapatrier en local avec une commande <code>scp</code>.</p>
-<pre class="bash"><code>scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/gbidaut/formation_cnrs/DNA-seq_PRJNA588789/multiqc*_1* .</code></pre>
+<pre class="bash"><code>scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/&lt;username&gt;/formation_cnrs/DNA-seq_PRJNA588789/multiqc*_1* .</code></pre>
 <p>Puis ouvrir le fichier <code>multiqc_1.html</code>avec Firefox.</p>
 </div>
 <div id="td-visualiser-nos-4-échantillons-dans-une-session-igv." class="section level2" number="4.3">
 <h2 number="4.3"><span class="header-section-number">4.3</span> TD: visualiser nos 4 échantillons dans une session IGV.</h2>
 <p>On peut rapatrier les fichiers BAM et BAI en local avec <code>scp</code>:</p>
-<pre class="bash"><code>scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/gbidaut/formation_cnrs/DNA-seq_PRJNA588789/*ba[m,i] .</code></pre>
+<pre class="bash"><code>scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/&lt;username&gt;/formation_cnrs/DNA-seq_PRJNA588789/*ba[m,i] .</code></pre>
 </div>
 </div>
 <div id="appel-de-variants" class="section level1" number="5">
@@ -445,7 +445,7 @@ multiqc .</code></pre>
 <pre class="bash"><code>sbatch variantcall.sh</code></pre>
 <p>On peut visualiser les variants obtenus dans IGV.</p>
 <p>En local:</p>
-<pre class="bash"><code>scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/gbidaut/formation_cnrs/DNA-seq_PRJNA588789/*vcf .</code></pre>
+<pre class="bash"><code>scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/&lt;username&gt;/formation_cnrs/DNA-seq_PRJNA588789/*vcf .</code></pre>
 </div>
 <div id="formatage-des-vcfs-obtenus" class="section level2" number="5.3">
 <h2 number="5.3"><span class="header-section-number">5.3</span> Formatage des VCFs obtenus</h2>
@@ -478,7 +478,7 @@ multiqc .</code></pre>
 <p>On peut annoter nos VCFs par l’appel au script <code>annovar_all.sh</code>, contenant une configuration prédéfinie:</p>
 <pre class="bash"><code>sbatch annovar_all.sh</code></pre>
 <p>Une fois le traitement fait, on peut importer les résultats en local:</p>
-<pre class="bash"><code>scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/gbidaut/formation_cnrs/DNA-seq_PRJNA588789/*multianno.txt .</code></pre>
+<pre class="bash"><code>scp -r &lt;username&gt;@core.cluster.france-bioinformatique.fr:/shared/home/&lt;username&gt;/formation_cnrs/DNA-seq_PRJNA588789/*multianno.txt .</code></pre>
 <p>Pour ouverture dans un tableur.</p>
 </div>
 <div id="annexe" class="section level2" number="6.2">
@@ -500,8 +500,8 @@ cd annovar
 -operation gx,f,f -nastring . -csvout -polish -xref /shared/projects/form-2021-018/data/annovar/example/gene_fullxref.txt 
 </code></pre>
 </div>
-<div id="annotation-de-variants" class="section level3" number="6.2.2">
-<h3 number="6.2.2"><span class="header-section-number">6.2.2</span> Annotation de variants</h3>
+<div id="exemple-dutilisation-dannovar" class="section level3" number="6.2.2">
+<h3 number="6.2.2"><span class="header-section-number">6.2.2</span> Exemple d’utilisation d’Annovar</h3>
 <p>Arguments de la ligne de commande:</p>
 <ul>
 <li><code>&lt;chemin&gt;/humandb/</code> : répertoire contenant les bases de données</li>
